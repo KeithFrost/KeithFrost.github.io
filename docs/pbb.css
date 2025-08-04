@@ -1,0 +1,120 @@
+body {
+	font-family: "Source Sans Pro", sans-serif;
+}
+
+code {
+	font-family: "Source Code Pro", monospace;
+}
+
+:not(pre, a) > code {
+	color: #d33682;
+}
+
+div.index-date {
+	background: url("images/calendar.svg") left center/.9em no-repeat;
+	color: #7e7e7e;
+	font-size: 90%;
+	font-style: italic;
+	margin: 1em 1.2em 0 0;
+	padding: 0 1.2em;
+}
+
+div.index-title {
+	font-size: 1.2em;
+}
+
+div.index-date p,
+div.index-title p {
+	margin: initial;
+}
+
+h1.title {
+	font-size: 2.2em;
+	text-wrap: balance;
+}
+
+a {
+	outline: none;
+	-wekbit-tap-highlight-color: transparent;
+	text-decoration: none;
+}
+
+a:link {
+	color: #268bd2;
+}
+
+a:visited {
+	color: #6c71c4;
+}
+
+a:focus {
+	text-shadow: 0 .25em .2em #666;
+}
+
+a:hover {
+	text-shadow: .25em .25em .17em #666;
+}
+
+a:active {
+	text-shadow: -.25em .25em .16em #666;
+}
+
+figcaption,
+table > caption {
+	color: #7e7e7e;
+	font-size: 90%;
+	font-style: italic;
+}
+
+figure {
+	border: 1px solid #eee;
+	margin: 1em auto;
+	padding: 5px;
+	text-align: center;
+	width: -moz-fit-content; /* stylelint-disable-line */
+	width: fit-content;
+}
+
+#blogtitle {
+	color: #fff;
+	font-size: 3.4rem;
+	font-weight: bold;
+	text-align: center;
+	text-shadow: 0 0 10px #333;
+}
+
+#blogtitle a:link,
+#blogtitle a:visited,
+#blogtitle a:focus,
+#blogtitle a:hover,
+#blogtitle a:active {
+	color: white;
+	text-shadow: inherit;
+}
+
+#blogtitle a:focus {
+	outline: black auto 1px;
+}
+
+p.date {
+	background: url("images/calendar.svg") left center/1em no-repeat;
+	color: #7e7e7e;
+	font-size: 90%;
+	font-style: italic;
+	margin-left: 1em;
+	padding: 0 1.2em;
+	text-align: left;
+}
+
+div.sourceCode { /* stylelint-disable-line */
+	padding: 9px;
+}
+
+table td,
+table th {
+	border: 1px solid #dfe2e5;
+}
+
+table tr:nth-child(even) {
+	background-color: #f6f8fa;
+}

@@ -1,0 +1,25 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
+  <title>kfrost</title>
+  <id>https://keithfrost.github.io/</id>
+  <updated>2025-08-04T19:40:07-04:00</updated>
+  <author>
+    <name>Keith Frost</name>
+    <email>keith.l.frost@gmail.com</email>
+    <uri>https://keithfrost.github.io/</uri>
+  </author>
+  <link href="https://keithfrost.github.io/feed.xml" rel="self" type="application/atom+xml"></link>
+  <link href="https://keithfrost.github.io/" rel="alternate" type="text/html"></link>
+  <generator uri="https://bewuethr/pandoc-bash-blog">pandoc-bash-blog</generator>
+  <icon></icon>
+  <webfeeds:icon></webfeeds:icon>
+  <webfeeds:cover image=""></webfeeds:cover>
+  <entry>
+    <title type="html">My first post</title>
+    <id>https://keithfrost.github.io/2025-08-04-my-first-post.html</id>
+    <updated></updated>
+    <content src="https://keithfrost.github.io/2025-08-04-my-first-post.html" type="text/html"></content>
+    <link href="https://keithfrost.github.io/2025-08-04-my-first-post.html" rel="alternate" type="text/html" title="My first post"></link>
+    <summary type="html">A wild post appeared</summary>
+    <published></published>
+  </entry>
+</feed>
