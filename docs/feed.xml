@@ -1,7 +1,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <title>kfrost</title>
   <id>https://keithfrost.github.io/</id>
-  <updated>2025-08-04T21:45:03-04:00</updated>
+  <updated>2025-08-05T14:47:00-04:00</updated>
   <author>
     <name>Keith Frost</name>
     <email>keith.l.frost@gmail.com</email>
@@ -14,12 +14,12 @@
   <webfeeds:icon></webfeeds:icon>
   <webfeeds:cover image=""></webfeeds:cover>
   <entry>
-    <title type="html">My first post</title>
-    <id>https://keithfrost.github.io/2025-08-04-my-first-post.html</id>
-    <updated>2025-08-04T19:41:00-04:00</updated>
-    <content src="https://keithfrost.github.io/2025-08-04-my-first-post.html" type="text/html"></content>
-    <link href="https://keithfrost.github.io/2025-08-04-my-first-post.html" rel="alternate" type="text/html" title="My first post"></link>
-    <summary type="html">A wild post appeared</summary>
-    <published>2025-08-04T19:41:00-04:00</published>
+    <title type="html">Frac5: A new type of flame fractal</title>
+    <id>https://keithfrost.github.io/2025-08-08-frac5.html</id>
+    <updated></updated>
+    <content src="https://keithfrost.github.io/2025-08-08-frac5.html" type="text/html"></content>
+    <link href="https://keithfrost.github.io/2025-08-08-frac5.html" rel="alternate" type="text/html" title="Frac5: A new type of flame fractal"></link>
+    <summary type="html">My journey to using Numerical Elixir to generate a new type of flame fractal.</summary>
+    <published></published>
   </entry>
 </feed>
