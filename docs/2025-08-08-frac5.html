@@ -289,11 +289,12 @@ ensure that the <span class="math inline">\(z\)</span> coordinate always
 remains non-negative, and to average the new <span
 class="math inline">\(z\)</span> coordinate <span
 class="math inline">\(p_{k,2}\)</span> with its previous value <span
-class="math inline">\(p_{k-1,2}\)</span>. These details might be
-important if you wish to reproduce the results of that article in
-detail, but in the extension of that work to follow, it seemed best to
-me to treat all dimensions of the vector space symmetrically, until we
-are ready to render the pixel data of the image.</p>
+class="math inline">\(p_{k-1,2}\)</span> before finalizing its value.
+These details might be important if you wish to reproduce the results of
+that article in detail, but for understanding the extension of that work
+to follow, it seems best to me to treat all dimensions of the vector
+space symmetrically, until we are ready to render the pixel data of the
+image.</p>
 <p>Speaking of being ready to render pixel data, we have seen how we can
 generate an arbitrarily large collection of points <span
 class="math inline">\(\{p_k\},
@@ -305,10 +306,10 @@ fall within the bounds of the array, set the color of the pixel
 referenced by those indices to a value determined by some chosen palette
 for converting <span class="math inline">\(z\)</span> values to
 colors.</p>
-<p>I found I was able to reproduce reasonably closely the work in
+<p>I found I was able to reproduce, as closely as I wished, the work in
 <em>ACS5</em>, by writing code in ordinary Elixir (without using
 Numerical Elixir), and it performed well enough to generate some lovely
-images. For example:</p>
+images within acceptable times. For example:</p>
 <figure>
 <img src="/images/fractal002.png" alt="early example fractal" />
 <figcaption aria-hidden="true">early example fractal</figcaption>
@@ -316,11 +317,13 @@ images. For example:</p>
 <p>As soon as I was able to generate this image (and several others like
 it), I became tremendously excited by the potential of the project. I
 knew that there was much more work I could explore along these lines, by
-investigating each of the choices that went into creating the images.
-But more than that, I was supremely motivated by the surprising and
-spectacular beauty of the generated pictures, especially when combined
-with the stark mathematical simplicity of the means of generating them.
-To put it bluntly, I was hooked.</p>
+investigating each of the choices that went into creating the images,
+and finding ways to either optimize the implementation, or expand the
+range of choices available for artistic purposes. But more than that, I
+was supremely motivated by the surprising and spectacular beauty of the
+generated pictures, especially when combined with the stark mathematical
+simplicity of the means of generating them. To put it bluntly, I was
+hooked.</p>
 <h1 id="porting-to-numerical-elixir">Porting to Numerical Elixir</h1>
 </body>
 </html>
