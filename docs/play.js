@@ -160,7 +160,7 @@ function main() {
   const positions = new Float32Array(
       ids.map(_ => [rand(canvas.width), rand(canvas.height), 0, 0]).flat());
   const velocities = new Float32Array(
-      ids.map(_ => [rand(-20, 20), rand(-20, 20), 0, 0]).flat());
+      ids.map(_ => [rand(20) + rand(20), rand(20) + rand(20), 0, 0]).flat());
 
   function createTexture(gl, data, width, height) {
     const tex = gl.createTexture();
