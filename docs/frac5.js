@@ -198,13 +198,15 @@ class FracState {
 	  const cPosI = 3 * posI;
 	  const bPosI = 4 * posI;
 	  this.counts[posI] += 1;
-	  this.pixelSums[cPosI] += r;
-	  this.pixelSums[cPosI + 1] += g;
-	  this.pixelSums[cPosI + 2] += b;
-	  const ct = this.counts[posI];
-	  this.imgBuff[bPosI] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI] / ct)));
-	  this.imgBuff[bPosI + 1] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI + 1] / ct)));
-	  this.imgBuff[bPosI + 2] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI + 2] / ct)));
+	  let f1 = 1.0 / (9.0 + this.counts[posI]);
+	  if (f1 < 0.02) f1 = 0.02;
+	  const f0 = 1.0 - f1;
+	  this.pixelSums[cPosI] = f0 * this.pixelSums[cPosI] + f1 * r;
+	  this.pixelSums[cPosI + 1] = f0 * this.pixelSums[cPosI + 1] + f1 * g;
+	  this.pixelSums[cPosI + 2] = f0 * this.pixelSums[cPosI + 2] + f1 * b;
+	  this.imgBuff[bPosI] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI])));
+	  this.imgBuff[bPosI + 1] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI + 1])));
+	  this.imgBuff[bPosI + 2] = Math.floor(127.5 * (1.0 - Math.cos(this.pixelSums[cPosI + 2])));
 	  this.imgBuff[bPosI + 3] = 255;
 	}
 	return true;
@@ -212,18 +214,18 @@ class FracState {
 }
 
 function makeFracState(seqTxs, parTxs, res, imgBuff, zcolor) {
-  return new FracState(seqTxs, parTxs, res, imgBuff, zcolor);
+    return new FracState(seqTxs, parTxs, res, imgBuff, zcolor);
 }
 
 
 /*---------*/
 const affines = [];
-const atxs = [f32map(Math.cos), f32map((v) => 2.0 * Math.sin(v)), contract]
+const atxs = [f32map(Math.cos), f32map((v) => 2.0 * Math.sin(v)), expand]
 for (let i = 0; i < 3; i++) {
   affines.push(makeAffine(1.0));
   affines.push(atxs[i]);
 }
-const txforms = [wmean, expand, contract];
+const txforms = [wmean, contract, expand];
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
