@@ -259,7 +259,7 @@ function animate(time) {
 	timeDelta = Math.floor(0.001 * timeDelta);
 	const fps = Math.floor(count / timeDelta);
         console.log("time = " + timeDelta + ", frames = " + count + ", fps = " + fps);
-        canvas.style.border = "1px solid gray";
+        canvas.style.border = "3px solid gray";
   }
 }
 requestAnimationFrame(animate);
