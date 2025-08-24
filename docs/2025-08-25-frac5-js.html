@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-08-25" />
+  <title>Frac5 JS: Animated Frac5 generation using browser javascript</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #073642;
+        color: #839496;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #839496;  padding-left: 4px; }
+    div.sourceCode
+      { color: #839496; background-color: #002b36; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #d33682; font-weight: bold; } /* Alert */
+    code span.an { color: #dc322f; } /* Annotation */
+    code span.at { color: #b58900; } /* Attribute */
+    code span.bn { color: #2aa198; } /* BaseN */
+    code span.bu { color: #859900; } /* BuiltIn */
+    code span.cf { color: #859900; } /* ControlFlow */
+    code span.ch { color: #dc322f; } /* Char */
+    code span.cn { color: #2aa198; } /* Constant */
+    code span.co { color: #586e75; font-style: italic; } /* Comment */
+    code span.cv { color: #268bd2; } /* CommentVar */
+    code span.do { color: #2aa198; } /* Documentation */
+    code span.dt { color: #cb4b16; } /* DataType */
+    code span.dv { color: #2aa198; } /* DecVal */
+    code span.er { color: #ffffff; background-color: #ff0000; } /* Error */
+    code span.ex { color: #839496; } /* Extension */
+    code span.fl { color: #2aa198; } /* Float */
+    code span.fu { color: #268bd2; } /* Function */
+    code span.im { color: #2aa198; } /* Import */
+    code span.in { color: #2aa198; } /* Information */
+    code span.kw { color: #859900; } /* Keyword */
+    code span.op { color: #859900; } /* Operator */
+    code span.ot { color: #859900; } /* Other */
+    code span.pp { color: #cb4b16; } /* Preprocessor */
+    code span.re { color: #cb4b16; } /* RegionMarker */
+    code span.sc { color: #dc322f; } /* SpecialChar */
+    code span.ss { color: #268bd2; } /* SpecialString */
+    code span.st { color: #2aa198; } /* String */
+    code span.va { color: #cb4b16; } /* Variable */
+    code span.vs { color: #2aa198; } /* VerbatimString */
+    code span.wa { color: #dc322f; font-weight: bold; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/pbb.css" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,700,700i|Source+Sans+Pro:400,400i,700,700i&display=swap" rel="stylesheet">
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="kfrost Feed">
+  <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<div id="blogtitle"><a href="./">kfrost</a></div>
+<header id="title-block-header">
+<h1 class="title">Frac5 JS: Animated Frac5 generation using browser
+javascript</h1>
+<p class="date">2025-08-25</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">table of contents</h2>
+<ul>
+<li><a href="#try-it-out" id="toc-try-it-out">Try it out!</a></li>
+<li><a href="#recap" id="toc-recap">Recap</a></li>
+<li><a href="#on-wanting-enchiladas" id="toc-on-wanting-enchiladas">On
+wanting enchiladas</a></li>
+<li><a href="#a-silly-javascript-gadget"
+id="toc-a-silly-javascript-gadget">A silly javascript gadget</a></li>
+<li><a href="#memory-optimization-breakthrough"
+id="toc-memory-optimization-breakthrough">Memory optimization
+breakthrough</a></li>
+<li><a href="#javascript-the-good-parts"
+id="toc-javascript-the-good-parts">Javascript: the good parts</a></li>
+<li><a href="#tweaking-the-animation"
+id="toc-tweaking-the-animation">Tweaking the animation</a></li>
+<li><a href="#future-work" id="toc-future-work">Future work</a></li>
+</ul>
+</nav>
+<h1 id="try-it-out">Try it out!</h1>
+<p>Life flickers like an uncertain flame. Sometimes, you just want to
+eat dessert first.</p>
+<p><a href="/frac5.html">Frac5 JS</a></p>
+<h1 id="recap">Recap</h1>
+<p>In my <a href="/2025-08-08-frac5.html">previous post</a> on <a
+href="https://github.com/KeithFrost/frac5.git">Frac5</a> fractal image
+generation, I explained how I came around to generating a new type of
+flame-like fractals using <a
+href="https://github.com/elixir-nx">Numerical Elixir</a>, and closed
+that post with a brief paragraph about future plans, in which I
+mentioned hoping to explore a way to make the generation of these images
+more dynamic or interactive, perhaps by using <code>WebGPU</code> in the
+browser.</p>
+<p>I started looking into using <code>WebGPU</code>, and I still hope
+that it may prove useful to this work in the future, but porting my
+<code>Numerical Elixir</code> implementation directly to a
+<code>WebGPU</code> implementation seemed to this programmer (unfamiliar
+with implementing shaders in general, and the browser interfaces to
+doing so specifically) like a <em>very</em> steep and rocky road.</p>
+<h1 id="on-wanting-enchiladas">On wanting enchiladas</h1>
+<p>One day I was sitting on the couch at <a
+href="https://recurse.com">Recurse Center</a> and a friend asked how it
+was going, and I ranted a bit about just how tough and complex the going
+was. And this friend said (as friends do), “let me see if I can help.”
+They proceeded to show my <code>Frac5</code> code to some “LLM” creature
+or other, and we tried for an hour or so to help it break down the tasks
+needed to rewrite <code>Frac5</code> in javascript to use GPU shaders
+and animate the image generation in the browser.</p>
+<p>The exercise was a dismal failure, which I suppose provided some
+reassurance that I’m not completely incompetent, but the
+<em>process</em> of the attempt got me thinking. <em>Why</em> was it so
+tough? If I wanted to get one of these LLM monsters to do my bidding,
+what input would be sufficient to allow it to be successful?</p>
+<p>It didn’t take much effort to see my way to an answer. What made the
+job tough was that we were trying to do too much all at once. When I
+developed the <code>Frac5</code> code, I didn’t start by writing its
+final form, Numerical Elixir and all, off the top of my head. Of course
+not! That would have been way too hard! I started by writing a more
+straightforward, less efficient, less capable version of the code, and
+getting that to work.</p>
+<p>Once I had a working version, however inefficient, incapable, and
+simplistic it might be, I could make incremental steps to improve it in
+chosen directions, one little change at time. It is our
+<em>impatience</em> which frustrates our efforts at coping with
+complexity, more than anything. So long as we insist on trying to have
+the whole enchilada <em>right now</em>, we remain frustrated, and
+hungry. If we start looking around for some tortillas, and some cheese,
+and a few other ingredients… enchiladas may well be on our plate, by and
+by.</p>
+<h1 id="a-silly-javascript-gadget">A silly javascript gadget</h1>
+<p>That’s a fine analogy, but what, in this situation, are the
+tortillas? That very afternoon on which our “vibe coding” hit a variety
+of dead ends, I made up my mind to start writing a barebones,
+inefficient, simplistic version of my <code>Frac5</code> code in plain
+javascript.</p>
+<p>Hang on just a second, though. It’s all very well to have a minimal
+version of a piece of code, but if I wrote an animation of this fractal
+drawing process in javascript that took half an hour to run, I wouldn’t
+be sticking around to watch it, nor would I be able to readily convince
+myself that it was worth the effort (and it <em>does take effort</em>,
+perhaps especially to <em>rewrite</em> code). So first I needed to
+implement something else, even simpler, that actually ran in the
+browser, and did some amount of numerical work to animate something, so
+that I could benchmark it and get an idea whether my all-javascript,
+all-CPU fractal animation had any hope of being worthwhile. My only
+previous experience writing computationally intensive animations in the
+browser was using <a href="pgjs.org">p5js</a>, and I had <em>not</em>
+been pleased with the performance of trying to perform ~100K
+<code>draw</code> operations per animation frame in <em>that</em>
+environment.</p>
+<p>So I wrote a little gadget, that just changed the RGB values of a
+bunch of pixels in a canvas every animation frame, and I benchmarked it
+on all the devices I had access to. You can run the <a
+href="/play2.html">gadget</a> yourself, if you’re curious.</p>
+<p>It has a little bit of HTML, that just looks like this.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span>fps: <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;fps&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">canvas</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;canvas&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">canvas</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;./play2d.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>And that javascript file contains this.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;canvas&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fpsElem <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&quot;fps&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;2d&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pixelRatio <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">devicePixelRatio</span> <span class="op">||</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cssWidth <span class="op">=</span> <span class="dv">640</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cssHeight <span class="op">=</span> <span class="dv">640</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">width</span> <span class="op">=</span> cssWidth <span class="op">+</span> <span class="st">&#39;px&#39;</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">height</span> <span class="op">=</span> cssHeight <span class="op">+</span> <span class="st">&#39;px&#39;</span><span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cWidth <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(cssWidth <span class="op">*</span> pixelRatio)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cHeight <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(cssHeight <span class="op">*</span> pixelRatio)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="at">width</span> <span class="op">=</span> cWidth<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="at">height</span> <span class="op">=</span> cHeight<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ctx<span class="op">.</span><span class="fu">scale</span>(pixelRatio<span class="op">,</span> pixelRatio)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> imageData <span class="op">=</span> ctx<span class="op">.</span><span class="fu">createImageData</span>(cWidth<span class="op">,</span> cHeight)<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> imgData <span class="op">=</span> imageData<span class="op">.</span><span class="at">data</span><span class="op">;</span>   <span class="co">// Uint8ClampedArray</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pTime <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> sumTime <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> frames <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">animate</span>(time) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    time <span class="op">*=</span> <span class="fl">0.001</span><span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> deltaTime <span class="op">=</span> time <span class="op">-</span> pTime<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (pTime <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        sumTime <span class="op">+=</span> deltaTime<span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        frames <span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    pTime <span class="op">=</span> time<span class="op">;</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (sumTime <span class="op">&gt;=</span> <span class="fl">1.0</span>) {</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> fps <span class="op">=</span> frames <span class="op">/</span> sumTime<span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        fpsElem<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> fps<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        sumTime <span class="op">=</span> <span class="fl">0.0</span><span class="op">;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        frames <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> t <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(time <span class="op">*</span> <span class="dv">256</span>) <span class="op">%</span> <span class="dv">2048</span><span class="op">;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> cHeight<span class="op">;</span> r<span class="op">++</span>) {</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> c <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> c <span class="op">&lt;</span> cWidth<span class="op">;</span> c<span class="op">++</span>) {</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            index <span class="op">=</span> (r <span class="op">*</span> cWidth <span class="op">+</span> c) <span class="op">*</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            imgData[index] <span class="op">=</span> (r <span class="op">+</span> t) <span class="op">%</span> <span class="dv">256</span><span class="op">;</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>            imgData[index <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> (c <span class="op">+</span> t) <span class="op">%</span> <span class="dv">256</span><span class="op">;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>            imgData[index <span class="op">+</span> <span class="dv">2</span>] <span class="op">=</span> (index <span class="op">+</span> t) <span class="op">%</span> <span class="dv">256</span><span class="op">;</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            imgData[index <span class="op">+</span> <span class="dv">3</span>] <span class="op">=</span> <span class="dv">255</span><span class="op">;</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    ctx<span class="op">.</span><span class="fu">putImageData</span>(imageData<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;canvas dimensions: &quot;</span> <span class="op">+</span> canvas<span class="op">.</span><span class="at">width</span> <span class="op">+</span> <span class="st">&quot;x&quot;</span> <span class="op">+</span> canvas<span class="op">.</span><span class="at">height</span>)<span class="op">;</span></span></code></pre></div>
+<p>What does this do? It animates lots and lots of rainbows! And by
+rainbows I mean little moving squares with colors in them. For my
+purposes, though, the only important thing that this does is draw a
+different color to every single pixel in a canvas, every single
+animation frame, and it runs at enough frames per second on all of my
+devices to convince me that I can do enough math in javascript to
+smoothly animate the rendering of very interesting fractals in just a
+few minutes!</p>
+<h1 id="memory-optimization-breakthrough">Memory optimization
+breakthrough</h1>
+<p>Back when I was still struggling to figure out how to animate the
+<code>Frac5</code> fractals using GPU shaders, I came up with a helpful
+way to visualize the computation of the 5D points that end up getting
+rendered into the fractal images. Some group of points <span
+class="math inline">\(P_0\)</span> gets put through multiple operations
+<span class="math inline">\((F_0, G_0, H_0)\)</span>, and then the
+points which result from those are put through operations <span
+class="math inline">\((F_1, G_1, H_1)\)</span>, and so on… So the groups
+of points which come out of this process are most readily visualized as
+forming a <em>tree</em>.</p>
+<img src="diagrams/70ba403.svg" />
+<p>One night when I was riding the subway home and picturing how I might
+store and process the points arising from this graph using shaders, I
+had an epiphany. You can plainly see that the number of points at each
+layer of this tree grows exponentially. At first this is a very
+<em>good</em> thing, because we can process all of the points at one
+layer of the tree in parallel, and when you want to perform work quickly
+using GPUs, the more work you can do in parallel, the better. So growing
+exponentially in this way is very good, as I said, because if we start
+with five points (one for each cardinal direction in 5D, natch), and
+then process those five points through nine layers of the tree, we end
+up with <span class="math inline">\(5 \cdot 3^9 = 98415\)</span> points
+at the ninth layer, and it’s <em>good</em> to be able to hand off ~100K
+points to a GPU to process in parallel.</p>
+<p>Only, the tree doesn’t stop there, no it doesn’t, it goes right on
+growing exponentially every layer, and we end up wanting to process
+something like 16 or 17 layers of the tree, and at the 16th layer we
+have <span class="math inline">\(5 \cdot 3^{16} \approx 2 \cdot
+10^8\)</span> points, which when you write them all out, 4 bytes per
+float, 5 dimensions per point, take up 4 GB of memory, and (in
+<em>A.D.</em> 2025) that size of chunk of memory ought not to be
+casually allocated and passed around (perhaps <em>especially</em> on
+GPUs), not to mention, <em>garbage collected</em>.</p>
+<p>In my Elixir library, I had stopped concatenating blocks of points
+from a layer together once they exceeded ~100K points, because I found
+that trying to allocate and process blocks of points which were <em>too
+large</em> on the GPU with Numerical Elixir started to cause performance
+and stability issues with my Mac Mini. I don’t recall exactly where the
+dangerous edge was, because I swiftly backed well away from it.</p>
+<p>But when I wrote that block size limitation in my Elixir code, <em>I
+overlooked something really important</em>. (Perhaps you have already
+seen my mistake and are laughing up your sleeve about it, in which case
+– go ahead, yuck it up! I live to give joy to clever people.) You see, I
+kept my points in blocks of ~100K, but I still traversed the tree in
+breadth-first order, one layer at a time. And this meant, I still had to
+store all of the points from the previous layer, until I was ready to
+start processing the next layer. And as we just saw, storing this many
+points starts to add up to really big memory, even if it isn’t allocated
+all in one giant chunk.</p>
+<p>That night on the subway, the realization hit me like a (forgive me)
+train. Yes, for the first 9 (or however many) layers of the tree it’s
+best to traverse it in breadth-first order, one layer at a time, because
+we want to concatenate all the points from the layer together for
+parallel processing. <em>But once we have a chunk of points large enough
+to saturate our parallel processing capability, we can traverse the rest
+of the tree depth-first, and achieve exponential savings on the memory
+required by the algorithm.</em></p>
+<p>To see this, refer back to the tree diagram above, but now imagine
+that <code>P0</code> is a block containing all the points from 9th layer
+of our tree. To traverse the pictured tree depth-first, we go to
+<code>F0</code>, then to <code>FF1</code>, which we process and throw
+away, then <code>FG1</code> likewise, and so on to <code>FH1</code>.
+After processing those points, we can likewise throw away
+<code>F0</code>, and move to processing <code>G0</code>,
+<code>GF1</code>, <code>GG1</code>, <code>GH1</code>. At each stage when
+we are processing a block of points, we need only keep in memory a
+single stack of blocks, numbering no more than the <em>depth</em> of the
+portion of the tree we are processing depth-first.</p>
+<p>So in the case where we want to go from layer 9 to layer 16 of the
+tree, we need only ever store 8 blocks of points, as compared to <span
+class="math inline">\(3^7=
+2187\)</span> blocks which would be required to store the entire 16th
+layer. This is an <em>enormous</em> savings. It means that the number of
+points we can process with the algorithm is no longer directly bound by
+the memory of our computer (or GPU, or whatever), because the number of
+points we need to <em>store</em> at any one time only grows as the
+<em>logarithm</em> of the total number of points we wish to
+<em>process</em>.</p>
+<h1 id="javascript-the-good-parts">Javascript: the good parts</h1>
+<p>I didn’t expect to like writing javascript much. I was surprised.
+Javascript can be a perfectly pleasant language for writing code, in a
+variety of styles. The biggest hurdle I faced was figuring out a
+development flow that gave me a serviceable REPL, on code that targeted
+the browser. I ended up using the javascript notebook environment <a
+href="https://github.com/gopi-suvanam/scribbler">scribbler</a> (served
+locally with <code>npx serve --cors</code>), and it worked well
+enough.</p>
+<p>I’m just going to show some highlights of the code in this post. The
+current state of it is not a production library; it’s all in one file,
+and subject to breaking changes, but you can read the full source <a
+href="https://github.com/KeithFrost/KeithFrost.github.io/blob/main/docs/frac5.js">here</a>.</p>
+<p>This is how I create a (randomized) affine transformation. Note how
+easy it is, in javascript, to create and return a closure.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">boxMuller</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> u1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> u2 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (u1 <span class="op">==</span> <span class="dv">0</span>) u1 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (u2 <span class="op">==</span> <span class="dv">0</span>) u2 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>()<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sqrt</span>(<span class="op">-</span><span class="fl">2.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(u1)) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">cos</span>(<span class="fl">2.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> u2)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pi4 <span class="op">=</span> <span class="fl">4.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pi2 <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> pi10 <span class="op">=</span> <span class="fl">10.0</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span><span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">makeAffine</span>(scale) {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> matrix <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(<span class="dv">5</span> <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="kw">const</span> index <span class="op">=</span> i <span class="op">*</span> <span class="dv">5</span> <span class="op">+</span> j<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            matrix[index] <span class="op">=</span> scale <span class="op">*</span> <span class="fu">boxMuller</span>()<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (p5s) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> t5s <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(p5s<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (<span class="kw">let</span> pp <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> pp <span class="op">&lt;</span> p5s<span class="op">.</span><span class="at">length</span><span class="op">;</span> pp <span class="op">+=</span> <span class="dv">5</span>) {</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                <span class="kw">const</span> indT <span class="op">=</span> pp <span class="op">+</span> i<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                    t5s[indT] <span class="op">+=</span> matrix[i <span class="op">*</span> <span class="dv">5</span> <span class="op">+</span> j] <span class="op">*</span> p5s[pp <span class="op">+</span> j]<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                t5s[indT] <span class="op">=</span> (t5s[indT] <span class="op">+</span> pi10) <span class="op">%</span> pi4 <span class="op">-</span> pi2</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> t5s<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Here’s how I return a closure which maps a function supplied as an
+argument over a <code>Float32Array</code>. Nice!</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f32map</span>(f) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (p5s) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> t5s <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(p5s<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> index <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> index <span class="op">&lt;</span> p5s<span class="op">.</span><span class="at">length</span><span class="op">;</span> index<span class="op">++</span>) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        t5s[index] <span class="op">=</span> <span class="fu">f</span>(p5s[index])<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t5s<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>And here is concatenating an array of <code>Float32Array</code>s. It
+gets the job done, without much fuss.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">concatenate</span>(arrayP5s) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> length <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> p5s <span class="kw">of</span> arrayP5s) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        length <span class="op">+=</span> p5s<span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> t5s <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(length)<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> offset <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> p5s <span class="kw">of</span> arrayP5s) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        t5s<span class="op">.</span><span class="fu">set</span>(p5s<span class="op">,</span> offset)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        offset <span class="op">+=</span> p5s<span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t5s<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Finally, I want to show how the depth first traversal works, without
+getting too deep into the implementation weeds. So here is just part of
+the implementation of the <code>Frac5State</code> class.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FracState {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(seqTxs<span class="op">,</span> parTxs<span class="op">,</span> res<span class="op">,</span> imgBuff<span class="op">,</span> zcolor) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">seqTxs</span> <span class="op">=</span> seqTxs<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">parTxs</span> <span class="op">=</span> parTxs<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">res</span> <span class="op">=</span> res<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">imgBuff</span> <span class="op">=</span> imgBuff<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">zcolor</span> <span class="op">=</span> zcolor<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> pts <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(<span class="dv">5</span> <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">25</span><span class="op">;</span> i <span class="op">+=</span> <span class="dv">6</span>) {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        pts[i] <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> l <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (pts<span class="op">.</span><span class="at">length</span> <span class="op">&lt;</span> <span class="dv">250000</span>) {</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        pts <span class="op">=</span> <span class="fu">concatenate</span>(parTxs<span class="op">.</span><span class="fu">map</span>((tx) <span class="kw">=&gt;</span> <span class="fu">tx</span>(pts)))<span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        pts <span class="op">=</span> seqTxs[l <span class="op">%</span> seqTxs<span class="op">.</span><span class="at">length</span>](pts)<span class="op">;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        l<span class="op">++;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">p0</span> <span class="op">=</span> pts<span class="op">;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">l0</span> <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">counts</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">Int32Array</span>(res <span class="op">*</span> res)<span class="op">;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pixelSums</span> <span class="op">=</span> <span class="kw">new</span> <span class="bu">Float32Array</span>(res <span class="op">*</span> res <span class="op">*</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">maxDepth</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">floor</span>(<span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="fl">3.0E8</span>) <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(parTxs<span class="op">.</span><span class="at">length</span>)) <span class="op">-</span> l<span class="op">;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">proc1</span>() {</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> depth <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="at">length</span><span class="op">;</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (depth <span class="op">&lt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">maxDepth</span>) {</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>      depth<span class="op">++;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="fu">push</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> p0 <span class="op">=</span> (depth <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">?</span> <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">at</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">p0</span><span class="op">;</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">push</span>(<span class="kw">this</span><span class="op">.</span><span class="at">seqTxs</span>[(<span class="kw">this</span><span class="op">.</span><span class="at">l0</span> <span class="op">+</span> depth) <span class="op">%</span> <span class="kw">this</span><span class="op">.</span><span class="at">seqTxs</span><span class="op">.</span><span class="at">length</span>](<span class="kw">this</span><span class="op">.</span><span class="at">parTxs</span>[<span class="dv">0</span>](p0)))</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (<span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="fu">at</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">==</span> <span class="kw">this</span><span class="op">.</span><span class="at">parTxs</span><span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>) {</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>          <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="fu">pop</span>()</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>          <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">pop</span>()</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>          depth<span class="op">--;</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (depth <span class="op">==</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span>  <span class="co">// We&#39;ve generated all the points we can up to this.maxDepth</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> itx <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="fu">pop</span>() <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> p0 <span class="op">=</span> (depth <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">?</span> <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">at</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">p0</span><span class="op">;</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">ptStack</span><span class="op">.</span><span class="fu">push</span>(<span class="kw">this</span><span class="op">.</span><span class="at">seqTxs</span>[(<span class="kw">this</span><span class="op">.</span><span class="at">l0</span> <span class="op">+</span> depth) <span class="op">%</span> <span class="kw">this</span><span class="op">.</span><span class="at">seqTxs</span><span class="op">.</span><span class="at">length</span>](<span class="kw">this</span><span class="op">.</span><span class="at">parTxs</span>[itx](p0)))<span class="op">;</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">iTxStack</span><span class="op">.</span><span class="fu">push</span>(itx)<span class="op">;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>The initial layers of the computation tree are computed in the
+constructor, in breadth-first order, concatenating each layer together
+into a single <code>Float32Array</code>, until the size of the layer
+becomes large enough that we wish to switch to depth-first evaluation.
+Then that block of points is stored as <code>p0</code>, to be used as
+needed by the <code>proc1</code> method, which just computes the next
+block of points as it performs a step in the depth-first traversal of
+the tree. There are two stacks which are kept synchronized:
+<code>ptStack</code> contains the blocks of points we need to retain,
+while <code>iTxStack</code> keeps track of the indices of the parallel
+operations which were used to create those blocks of points, so we can
+move on to the next operation (or know that we’re all done), as needed.
+The <code>proc1</code> method returns <code>true</code> when it has
+successfully generated the next block of points, or <code>false</code>
+when the traversal of the tree to <code>maxDepth</code> has
+completed.</p>
+<h1 id="tweaking-the-animation">Tweaking the animation</h1>
+<p>Once I had the original algorithm ported to run in animated fashion
+in the browser, it was only natural that I would want to modify the
+algorithm to make it look better when animated. In particular, I
+observed that the original <code>Frac5</code> algorithm revisits the
+same pixels, near the center of the image, an <em>enormous</em> number
+of times in the course of generating the image, while touching more
+remote pixels far more rarely. It’s not clear how much this feature of
+the algorithm can be altered without running into other problems, but
+once a pixel has accumulated so many points that each update makes only
+negligible changes in its value, it’s not much fun to watch an animation
+where nothing changes.</p>
+<p>So I opted to give later points some precedence over earlier points,
+when updating a pixel which has already accumulated more than some
+limit. In particular, the update rule for a pixel <span
+class="math inline">\(P\)</span> upon accumulating the <span
+class="math inline">\(n\)</span>th point <span
+class="math inline">\(p_n\)</span> can be written</p>
+<p><span class="math display">\[ P_{n} = (1 - f(n)) P_{n-1} + f(n) p_n,
+\; n = 1, 2, 3, ...\]</span></p>
+<p>If we wish the accumulator <span class="math inline">\(P\)</span> to
+obtain the average value of the points <span
+class="math inline">\(p_i\)</span>, then we set <span
+class="math inline">\(f(n) = 1/n\)</span>. But I found a more
+interesting animation obtained when I instead chose</p>
+<p><span class="math display">\[
+f(n) = \begin{cases}
+    1/(n + n_0) &amp; \text{ if } n &lt; L \\
+    1/(L + n_0) &amp; \text{ if } n \geq L
+\end{cases}
+\]</span></p>
+<p>which lowered the initial update weights, effectively biasing the
+average downwared with <span class="math inline">\(n_0\)</span> initial
+zero values, and then limited the shrinking of the update weight to some
+lower bound, and hence gave later points higher precedence when there
+were a large number of points.</p>
+<p>I also slightly modified my choice of non-linear functions to apply,
+biasing toward functions which increased the deviation of points from
+the origin, in order to make the animation more interesting.</p>
+<h1 id="future-work">Future work</h1>
+<p>There are many ways to extend this work. For one, with a working
+in-browser animated version of the code in hand, it should now be
+feasible (perhaps with some LLM assistance?) to figure out how to make
+some GPU shaders do at least some of the work, which would help cool
+down those CPUs and save those batteries.</p>
+<p>But also, an animated version running in the user’s web browser
+raises new questions and possibilities, <em>e.g.</em> what if the user
+could interact with the rendering in progress, and somehow modify its
+flow? How might we take a user action as signifying some kind of
+preference, and translate that into the space of our matrices, so that
+we would know how to modify them? Or, thinking more practically, how
+might we allow the user to specify what non-linear functions to apply
+(currently hard-coded)? Or what color space to use (currently randomized
+on reload)?</p>
+<p>Not to mention, now I need to go back and fix my original
+<code>Frac5</code> Elixir library to perform depth-first traversal of
+the latter layers of the computation tree…</p>
+<script data-goatcounter="https://kfrost.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
