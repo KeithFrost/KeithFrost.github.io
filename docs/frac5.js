@@ -103,7 +103,7 @@ function concatenate(arrayP5s) {
   const t5s = new Float32Array(length);
   let offset = 0;
   for (const p5s of arrayP5s) {
-    t5s.set(p5s, offset)
+    t5s.set(p5s, offset);
     offset += p5s.length;
   }
   return t5s;
@@ -165,15 +165,15 @@ class FracState {
       return true;
     } else {
       while (this.iTxStack.at(-1) == this.parTxs.length - 1) {
-	this.iTxStack.pop()
-	this.ptStack.pop()
+	this.iTxStack.pop();
+	this.ptStack.pop();
 	depth--;
       }
       if (depth == 0) return false;  // We've generated all the points!
       const itx = this.iTxStack.pop() + 1;
       this.ptStack.pop();
       const p0 = (depth > 1) ? this.ptStack.at(-1) : this.p0;
-      const seqItx = (this.l0 + depth) % this.seqTxs.length
+      const seqItx = (this.l0 + depth) % this.seqTxs.length;
       this.ptStack.push(this.seqTxs[seqItx](this.parTxs[itx](p0)));
       this.iTxStack.push(itx);
       return true;
