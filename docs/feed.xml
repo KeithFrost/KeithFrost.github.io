@@ -1,7 +1,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <title>kfrost</title>
   <id>https://keithfrost.github.io/</id>
-  <updated>2025-08-23T23:24:01-04:00</updated>
+  <updated>2025-08-24T12:52:11-04:00</updated>
   <author>
     <name>Keith Frost</name>
     <email>keith.l.frost@gmail.com</email>
@@ -16,11 +16,11 @@
   <entry>
     <title type="html">Frac5 JS: Animated Frac5 generation using browser javascript</title>
     <id>https://keithfrost.github.io/2025-08-25-frac5-js.html</id>
-    <updated></updated>
+    <updated>2025-08-24T12:35:17-04:00</updated>
     <content src="https://keithfrost.github.io/2025-08-25-frac5-js.html" type="text/html"></content>
     <link href="https://keithfrost.github.io/2025-08-25-frac5-js.html" rel="alternate" type="text/html" title="Frac5 JS: Animated Frac5 generation using browser javascript"></link>
     <summary type="html">Animating the generation of `Frac5` fractals using browser javascript.</summary>
-    <published></published>
+    <published>2025-08-23T23:25:34-04:00</published>
   </entry>
   <entry>
     <title type="html">Frac5: A new type of flame fractal</title>
