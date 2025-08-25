@@ -151,7 +151,8 @@ class FracState {
     this.counts = new Int32Array(res * res);
     this.pixelSums = new Float32Array(res * res * 3);
 
-    this.maxDepth = Math.floor(Math.log(3.0E8) / Math.log(parTxs.length)) - l;
+    this.maxDepth =
+      Math.floor(Math.log(1.0E8) / Math.log(parTxs.length)) - l;
   };
 
   proc1() {
