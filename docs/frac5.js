@@ -229,10 +229,14 @@ function makeFracState(seqTxs, parTxs, res, imgBuff, zcolor) {
 /*---------*/
 const affines = [];
 const atxs = [f32map(Math.cos), f32map((v) => 2.0 * Math.sin(v)), expand]
+for (let i = 0; i < 2; i++) {
+    affines.push(makeAffine(1.0));
+}
 for (let i = 0; i < 3; i++) {
   affines.push(makeAffine(1.0));
   affines.push(atxs[i]);
 }
+
 const txforms = [wmean, contract, expand];
 
 const canvas = document.getElementById("canvas");
