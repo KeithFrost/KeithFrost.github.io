@@ -9,16 +9,20 @@ function boxMuller() {
   return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
 }
 
+function rUnif() {
+  return 2.0 * Math.random() - 1.0;
+}
+
 const pi4 = 4.0 * Math.PI;
 const pi2 = 2.0 * Math.PI;
 const pi10 = 10.0 * Math.PI;
 
-function makeAffine(scale) {
+function makeAffine(rfun) {
   const matrix = new Float32Array(5 * 5);
   for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 5; j++) {
       const index = i * 5 + j;
-      matrix[index] = scale * boxMuller();
+      matrix[index] = rfun();
     }
   }
 
@@ -113,7 +117,7 @@ function zcolor() {
   const col0 = new Float32Array(3);
   let sum = 0.0;
   for (let i = 0; i < 3; i++) {
-    const v = boxMuller();
+    const v = rUnif();
     col0[i] = v;
     sum += v * v;
   }
@@ -229,11 +233,9 @@ function makeFracState(seqTxs, parTxs, res, imgBuff, zcolor) {
 /*---------*/
 const affines = [];
 const atxs = [f32map(Math.cos), f32map((v) => 2.0 * Math.sin(v)), expand]
-for (let i = 0; i < 2; i++) {
-    affines.push(makeAffine(1.0));
-}
 for (let i = 0; i < 3; i++) {
-  affines.push(makeAffine(1.0));
+  affines.push(makeAffine(boxMuller));
+  affines.push(makeAffine(rUnif));
   affines.push(atxs[i]);
 }
 
