@@ -299,7 +299,7 @@ function animate(time) {
                 reset();
                 requestAnimationFrame(animate);
             },
-            15000);
+            20000);
     }
 }
 
