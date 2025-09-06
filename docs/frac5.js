@@ -98,6 +98,30 @@ function f32map(f) {
     }
 }
 
+function spiral(p5s) {
+    const t5s = new Float32Array(p5s.length);
+    for (let i = 0; i < p5s.length; i += 5) {
+        const x = p5s[i];
+        const y = p5s[i + 1];
+        const r = Math.sqrt(x * x + y * y);
+        const x2 = (x * Math.cos(r) - y * Math.sin(r) + pi10) % pi4 - pi2;
+        const y2 = (y * Math.cos(r) + x * Math.sin(r) + pi10) % pi4 - pi2;
+
+        const red = p5s[i + 2];
+        const blu = p5s[i + 4];
+        const cr = Math.sqrt(red * red + blu * blu);
+        const red2 = (red * Math.cos(cr) - blu * Math.sin(cr) + pi10) % pi4 - pi2;
+        const blu2 = (blu * Math.cos(cr) + red * Math.sin(cr) + pi10) % pi4 - pi2;
+
+        t5s[i] = x2;
+        t5s[i + 1] = y2;
+        t5s[i + 2] = red2;
+        t5s[i + 3] = p5s[i + 3];
+        t5s[i + 4] = blu2;
+    }
+    return t5s;
+}
+
 
 function concatenate(arrayP5s) {
     let length = 0;
@@ -234,8 +258,8 @@ function makeFracState(seqTxs, parTxs, res, imgBuff, zcolor) {
 
 function makeSeqOps() {
     const affines = [];
-    const atxs = [expand, contract, f32map(Math.cos)]
-    for (let i = 0; i < 3; i++) {
+    const atxs = [expand, contract, f32map(Math.cos), spiral];
+    for (let i = 0; i < 4; i++) {
         affines.push(makeAffine(() => 1.4 * boxMuller()));
         affines.push(atxs[i]);
     }
@@ -299,7 +323,7 @@ function animate(time) {
                 reset();
                 requestAnimationFrame(animate);
             },
-            20000);
+            60000);
     }
 }
 
