@@ -116,7 +116,7 @@ function spiral(p5s) {
         t5s[i] = x2;
         t5s[i + 1] = y2;
         t5s[i + 2] = red2;
-        t5s[i + 3] = p5s[i + 3];
+        t5s[i + 3] = (p5s[i + 3] - cr + pi10) % pi4 - pi2;
         t5s[i + 4] = blu2;
     }
     return t5s;
