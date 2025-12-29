@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-12-30" />
+  <title>2025-12-30-euler-contfrac</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        background-color: #073642;
+        color: #839496;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #839496;  padding-left: 4px; }
+    div.sourceCode
+      { color: #839496; background-color: #002b36; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #d33682; font-weight: bold; } /* Alert */
+    code span.an { color: #dc322f; } /* Annotation */
+    code span.at { color: #b58900; } /* Attribute */
+    code span.bn { color: #2aa198; } /* BaseN */
+    code span.bu { color: #859900; } /* BuiltIn */
+    code span.cf { color: #859900; } /* ControlFlow */
+    code span.ch { color: #dc322f; } /* Char */
+    code span.cn { color: #2aa198; } /* Constant */
+    code span.co { color: #586e75; font-style: italic; } /* Comment */
+    code span.cv { color: #268bd2; } /* CommentVar */
+    code span.do { color: #2aa198; } /* Documentation */
+    code span.dt { color: #cb4b16; } /* DataType */
+    code span.dv { color: #2aa198; } /* DecVal */
+    code span.er { color: #ffffff; background-color: #ff0000; } /* Error */
+    code span.ex { color: #839496; } /* Extension */
+    code span.fl { color: #2aa198; } /* Float */
+    code span.fu { color: #268bd2; } /* Function */
+    code span.im { color: #2aa198; } /* Import */
+    code span.in { color: #2aa198; } /* Information */
+    code span.kw { color: #859900; } /* Keyword */
+    code span.op { color: #859900; } /* Operator */
+    code span.ot { color: #859900; } /* Other */
+    code span.pp { color: #cb4b16; } /* Preprocessor */
+    code span.re { color: #cb4b16; } /* RegionMarker */
+    code span.sc { color: #dc322f; } /* SpecialChar */
+    code span.ss { color: #268bd2; } /* SpecialString */
+    code span.st { color: #2aa198; } /* String */
+    code span.va { color: #cb4b16; } /* Variable */
+    code span.vs { color: #2aa198; } /* VerbatimString */
+    code span.wa { color: #dc322f; font-weight: bold; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="/pbb.css" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,400i,700,700i|Source+Sans+Pro:400,400i,700,700i&display=swap" rel="stylesheet">
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="kfrost Feed">
+  <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<div id="blogtitle"><a href="./">kfrost</a></div>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">table of contents</h2>
+<ul>
+<li><a href="#project-euler-problems-57-64-65-and-66"
+id="toc-project-euler-problems-57-64-65-and-66">Project Euler Problems
+57, 64, 65, and 66</a></li>
+<li><a
+href="#represent-irrational-square-roots-of-integers-as-continued-fractions"
+id="toc-represent-irrational-square-roots-of-integers-as-continued-fractions">Represent
+Irrational Square Roots of Integers as Continued Fractions</a></li>
+<li><a
+href="#continued-fraction-expansion-of-irrational-square-roots-of-integers"
+id="toc-continued-fraction-expansion-of-irrational-square-roots-of-integers">Continued
+Fraction Expansion of Irrational Square Roots of Integers</a></li>
+<li><a href="#represent-rational-numbers"
+id="toc-represent-rational-numbers">Represent Rational Numbers</a></li>
+<li><a href="#convergents-of-the-square-root-of-2"
+id="toc-convergents-of-the-square-root-of-2">Convergents of the Square
+Root of 2</a></li>
+<li><a href="#continued-fraction-expansion-of-e"
+id="toc-continued-fraction-expansion-of-e">Continued Fraction Expansion
+of e</a></li>
+<li><a href="#pells-equation" id="toc-pells-equation">Pell’s
+Equation</a></li>
+<li><a
+href="#just-for-fun-peek-at-cf-expansions-of-first-few-square-roots"
+id="toc-just-for-fun-peek-at-cf-expansions-of-first-few-square-roots">Just
+for fun, peek at CF expansions of first few square roots</a></li>
+</ul>
+</nav>
+<!-- livebook:{"autosave_interval_s":30} -->
+<h1 id="project-euler-problems-57-64-65-and-66">Project Euler Problems
+57, 64, 65, and 66</h1>
+<p>This is a set of problems I find particularly interesting and
+satisfying to solve, because they all involve learning about continued
+fraction expansions, mostly to represent irrational square roots, and
+this topic is absolutely fascinating to me. I hope you also find it
+interesting.</p>
+<h1
+id="represent-irrational-square-roots-of-integers-as-continued-fractions">Represent
+Irrational Square Roots of Integers as Continued Fractions</h1>
+<p>The leading integer part of the continued fraction will of course be
+given by the <code>isqrt</code> function. For mathematical rigor, it is
+nice to define this solely in terms of integer operations.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">Isqrt</span> <span class="kw">do</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> isqrt<span class="fu">(</span>x2, est \\ <span class="dv">1</span><span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    est1 <span class="op">=</span> div<span class="fu">(</span>est <span class="op">+</span> <span class="dv">1</span> <span class="op">+</span> div<span class="fu">(</span>x2 <span class="op">+</span> est <span class="op">-</span> <span class="dv">1</span>, est<span class="fu">)</span>, <span class="dv">2</span><span class="fu">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> est1 <span class="op">==</span> est <span class="kw">do</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> est1 <span class="op">*</span> est1 <span class="op">&gt;</span> x2 <span class="kw">do</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        est1 <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        est1</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      isqrt<span class="fu">(</span>x2, est1<span class="fu">)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{:module, Isqrt, &lt;&lt;70, 79, 82, 49, 0, 0, 8, ...&gt;&gt;, ...}</code></pre>
+<p>It’s nice to see some examples that this actually works, so:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">100</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">6</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">12</span><span class="ot">]</span> <span class="op">|&gt;</span> <span class="cn">Enum</span><span class="op">.</span>flat_map<span class="fu">(</span><span class="kw">fn</span> i <span class="op">-&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  i2 <span class="op">=</span> i <span class="op">*</span> i</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">-</span><span class="dv">1</span><span class="op">..</span><span class="dv">0</span> <span class="op">|&gt;</span> <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> d <span class="op">-&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> i2 <span class="op">+</span> d</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span>x, <span class="cn">Isqrt</span><span class="op">.</span>isqrt<span class="fu">(</span>x<span class="fu">)}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="fu">)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[
+  {0, 0},
+  {1, 1},
+  {3, 1},
+  {4, 2},
+  {8, 2},
+  {9, 3},
+  {15, 3},
+  {16, 4},
+  {255, 15},
+  {256, 16},
+  {9999, 99},
+  {10000, 100},
+  {999999999999, 999999},
+  {1000000000000, 1000000},
+  {999999999999999999999999, 999999999999},
+  {1000000000000000000000000, 1000000000000}
+]</code></pre>
+<h1
+id="continued-fraction-expansion-of-irrational-square-roots-of-integers">Continued
+Fraction Expansion of Irrational Square Roots of Integers</h1>
+<p>Let’s walk through an example, so we can get a feel for how this
+goes. Consider <span class="math display">\[ \sqrt{23} \]</span>. Of
+course, <code>isqrt(23) = 4</code>, so we write</p>
+<p><span class="math display">\[ \sqrt{23} = 4 + (\sqrt{23} - 4) = 4 +
+\frac{1}{1/(\sqrt{23} - 4)} \]</span></p>
+<p>and then rationalize the denominator of <span class="math display">\[
+1/(\sqrt{23} - 4) \]</span> by multiplying it by <span
+class="math display">\[ 1 = \frac{\sqrt{23} + 4}{\sqrt{23} + 4}
+\]</span>.</p>
+<p>Since <span class="math display">\[ (\sqrt{23} - 4)(\sqrt{23} + 4) =
+23 - 16 = 7 \]</span>, we conclude that</p>
+<p><span class="math display">\[ \sqrt{23} = 4 + \frac{1}{(\sqrt{23} +
+4) / 7} = 4 + \frac{1}{1 + (\sqrt{23} - 3) / 7} \]</span>, where we have
+pulled out the integer portion of the irrational fraction to find the
+first term of our continued fraction expansion, which happens to be
+<span class="math display">\[1\]</span>.</p>
+<p>To find the second term, we start with a new value less than 1 to
+approximate. The first time around, we were approximating <span
+class="math display">\[
+\sqrt{23} - 4 \]</span>; this time we wish to approximate <span
+class="math display">\[(\sqrt{23} -
+3)/7\]</span>. The method we use is pretty much the same: first, we
+rewrite it as 1 over its inverse, and then we rationalize the irrational
+denominator and finally, extract the integer portion of the resulting
+fraction, which will be the next term in the continued fraction
+expansion.</p>
+<p><span class="math display">\[ (\sqrt{23} - 3)/7 =
+\frac{1}{7/(\sqrt{23} - 3)} \]</span></p>
+<p><span class="math display">\[ \frac{7}{(\sqrt{23} - 3)} =
+\frac{7(\sqrt{23} + 3)}{23 - 9} = \frac{\sqrt{23} + 3}{2} \]</span>
+<span class="math display">\[ = 3 + \frac{\sqrt{23} - 3}{2}
+\]</span></p>
+<p>Therefore <span class="math display">\[ (\sqrt{23} - 3) / 7 =
+\frac{1}{3 + (\sqrt{23} - 3)/2} \]</span>, the second term in the
+continued fraction expansion is <span class="math display">\[3\]</span>,
+and the next irrational fraction less than one to be approximated, to
+get the third term, is <span class="math display">\[(\sqrt{23} -
+3)/2\]</span>.</p>
+<p>Rinse and repeat. Invert the fraction, rationalize the denominator,
+and extract a new integer portion, which is the third term in the
+expansion. The fractional part which remains will be the irrational
+fraction to approximate, in order to extract the fourth term.</p>
+<p><span class="math display">\[ \frac{2}{\sqrt{23} - 3} =
+\frac{2(\sqrt{23} + 3)}{14} = \frac{\sqrt{23} + 3}{7} = 1 +
+\frac{\sqrt{23} - 4}{7} \]</span></p>
+<p>So the third term is 1, and the next irrational fraction less than
+one is <span class="math display">\[ \frac{\sqrt{23} - 4}{7}
+\]</span>.</p>
+<p>Invert, rationalize the denominator, extract the next integer:</p>
+<p><span class="math display">\[\frac{7}{\sqrt{23} - 4} =
+\frac{7(\sqrt{23} + 4)}{7} = \sqrt{23} + 4 = 8 + (\sqrt{23} - 4)
+\]</span>.</p>
+<p>Now, pause. The next irrational number less than one to approximate
+is the <em>same number with which we started the expansion</em>, <span
+class="math display">\[
+\sqrt{23} - 4 \]</span>. This means that when we continue this
+expansion, from now on, we will simply repeat the same sequence of terms
+<span class="math display">\[(1, 3,
+1, 8)\]</span> forever. (By the way, it turns out that it is not an
+accident that the final term in the expansion before this recurrence is
+exactly twice the initial <code>isqrt(23) = 4</code>; this pattern will
+always occur.)</p>
+<p><span class="math display">\[\sqrt{23} = 4 + \dfrac{1}{1 +
+\dfrac{1}{3 + \dfrac{1}{1 + \dfrac{1}{8 + ...}}}} \]</span></p>
+<p>One interesting feature of this example expansion is, that every
+integer denominator we computed was a factor of the following difference
+of squares. The first non-trivial denominator we found was <span
+class="math display">\[ 23 - 16 = 7 \]</span>, which was a factor of
+<span class="math display">\[ 23 - 9 = 14 \]</span>. Dividing that out
+gave us <span class="math display">\[ 2 \]</span>, which was again a
+factor of <span class="math display">\[ 14 \]</span>. Dividing those
+gave another <span class="math display">\[ 7 \]</span>, which was equal
+to the next difference of squares, again <span class="math display">\[
+23 - 16 \]</span>. So we never had to answer the question, what is the
+largest integer smaller than <span class="math display">\[ n \sqrt{23}
+\]</span> for some <span class="math display">\[ n &gt; 1 \]</span>?
+Doing so would require us to compute the <code>isqrt</code> function of
+<span class="math display">\[ 23n^2 \]</span>, potentially on each
+iteration of the expansion. This raises the question, for an arbitrary
+expansion of this kind, will this feature always hold, or should we
+expect to need to repeatedly evaluate <code>isqrt</code> for numbers
+larger than the number for which we are deriving the expansion of the
+square root?</p>
+<p>In fact, we do not ever need to recompute the <code>isqrt</code>
+function to carry out an expansion. In particular, if we denote the
+terms of the expansion of <span class="math display">\[ \sqrt{n}
+\]</span> as <span class="math display">\[ a_i \]</span>, with <span
+class="math display">\[ i = {0, 1, ...} \]</span>, we have the
+formula</p>
+<p><span class="math display">\[ a_i = \lfloor
+\dfrac{\lfloor\sqrt{n}\rfloor + p_i}{q_i} \rfloor \]</span>, with <span
+class="math display">\[ p_0 = 0, q_0 = 1 \]</span>, and the recurrence
+relations</p>
+<p><span class="math display">\[ p_j = a_{j-1}q_{j-1} - p_{j-1}
+\]</span>, <span class="math display">\[ q_j = \dfrac{n -
+{p_j}^2}{q_{j-1}} \]</span></p>
+<p>In these terms, the property we want to be true is that <span
+class="math display">\[ q_j \]</span> is always an integer, rather than
+merely a rational number. For now, let’s write the recurrence code so
+that it will generate an error if we ever arrive at a non-integer value
+of <span class="math display">\[ q_j \]</span>.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">ContFrac</span> <span class="kw">do</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">defp</span> recur<span class="fu">(</span>n2, a0, p \\ <span class="dv">0</span>, q \\ <span class="dv">1</span>, terms \\ <span class="ot">[]</span><span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      a_prev <span class="op">=</span> <span class="kw">case</span> terms <span class="kw">do</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">[]</span> <span class="op">-&gt;</span> a0</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="ot">[</span>ap <span class="op">|</span> _<span class="ot">]</span> <span class="op">-&gt;</span> ap</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      pn <span class="op">=</span> a_prev <span class="op">*</span> q <span class="op">-</span> p</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      num <span class="op">=</span> n2 <span class="op">-</span> pn <span class="op">*</span> pn</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> num <span class="op">==</span> <span class="dv">0</span> <span class="kw">do</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span><span class="fu">(</span><span class="st">&quot;Expanding sqrt </span><span class="ot">#{</span>n2<span class="ot">}</span><span class="st">: terminating expansion error&quot;</span><span class="fu">)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> rem<span class="fu">(</span>num, q<span class="fu">)</span><span class="op"> !=</span> <span class="dv">0</span> <span class="kw">do</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span><span class="fu">(</span><span class="st">&quot;Expanding sqrt </span><span class="ot">#{</span>n2<span class="ot">}</span><span class="st">: </span><span class="ot">#{</span>num<span class="ot">}</span><span class="st"> indivisible by </span><span class="ot">#{</span>q<span class="ot">}</span><span class="st">&quot;</span><span class="fu">)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      qn <span class="op">=</span> div<span class="fu">(</span>num, q<span class="fu">)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      an <span class="op">=</span> div<span class="fu">(</span>a0 <span class="op">+</span> pn, qn<span class="fu">)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      nterms <span class="op">=</span> <span class="ot">[</span>an <span class="op">|</span> terms<span class="ot">]</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> an <span class="op">==</span> <span class="dv">2</span> <span class="op">*</span> a0 <span class="kw">do</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span>a0, <span class="cn">Enum</span><span class="op">.</span>reverse<span class="fu">(</span>nterms<span class="fu">)}</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        recur<span class="fu">(</span>n2, a0, pn, qn, nterms<span class="fu">)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> expand<span class="fu">(</span>n2<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    recur<span class="fu">(</span>n2, <span class="cn">Isqrt</span><span class="op">.</span>isqrt<span class="fu">(</span>n2<span class="fu">))</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{:module, ContFrac, &lt;&lt;70, 79, 82, 49, 0, 0, 13, ...&gt;&gt;, ...}</code></pre>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">23</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{4, [1, 3, 1, 8]}</code></pre>
+<p>Now we can count how many continued fraction expansions for <span
+class="math display">\[ \sqrt{N}, N &lt; 10000 \]</span> have an odd
+period, pretty easily.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">Counter</span> <span class="kw">do</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> odd_periods<span class="fu">(</span>n<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span><span class="op">..</span>n <span class="op">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Enum</span><span class="op">.</span>filter<span class="fu">(</span><span class="kw">fn</span> x <span class="op">-&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        sx <span class="op">=</span> <span class="cn">Isqrt</span><span class="op">.</span>isqrt<span class="fu">(</span>x<span class="fu">)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">&gt;</span> sx <span class="op">*</span> sx</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span> <span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> x <span class="op">-&gt;</span> <span class="fu">{</span>x, <span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span>x<span class="fu">)}</span> <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Enum</span><span class="op">.</span>filter<span class="fu">(</span><span class="kw">fn</span> <span class="fu">{</span>_x, <span class="fu">{</span>_a0, terms<span class="fu">}}</span> <span class="op">-&gt;</span> rem<span class="fu">(</span>length<span class="fu">(</span>terms<span class="fu">)</span>, <span class="dv">2</span><span class="fu">)</span> <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Enum</span><span class="op">.</span>count<span class="fu">()</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{:module, Counter, &lt;&lt;70, 79, 82, 49, 0, 0, 10, ...&gt;&gt;, ...}</code></pre>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Counter</span><span class="op">.</span>odd_periods<span class="fu">(</span><span class="dv">13</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>4</code></pre>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Counter</span><span class="op">.</span>odd_periods<span class="fu">(</span><span class="dv">10000</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>1322</code></pre>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">1000</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{31, [1, 1, 1, 1, 1, 6, 2, 2, 15, 2, 2, 6, 1, 1, 1, 1, 1, 62]}</code></pre>
+<h1 id="represent-rational-numbers">Represent Rational Numbers</h1>
+<p>Another preliminary to implement, because we will see later that we
+need it, is some convenient way to represent and manipulate rational
+numbers. We don’t need much here, so we just represent them as 2-tuples
+of integers, and define the bare minimum of operations on them.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">Rational</span> <span class="kw">do</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> new<span class="fu">(</span>num, denom<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span>n, d<span class="fu">}</span> <span class="op">=</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> denom <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">do</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span><span class="op">-</span>num, <span class="op">-</span>denom<span class="fu">}</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span>num, denom<span class="fu">}</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">end</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    gcd <span class="op">=</span> <span class="cn">Integer</span><span class="op">.</span>gcd<span class="fu">(</span>n, d<span class="fu">)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span>div<span class="fu">(</span>n, gcd<span class="fu">)</span>, div<span class="fu">(</span>d, gcd<span class="fu">)}</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> inv<span class="fu">({</span>n, d<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    new<span class="fu">(</span>d, n<span class="fu">)</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> add<span class="fu">({</span>n1, d1<span class="fu">}</span>, <span class="fu">{</span>n2, d2<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    new<span class="fu">(</span>n1 <span class="op">*</span> d2 <span class="op">+</span> n2 <span class="op">*</span> d1, d1 <span class="op">*</span> d2<span class="fu">)</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> subtract<span class="fu">({</span>n1, d1<span class="fu">}</span>, <span class="fu">{</span>n2, d2<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    new<span class="fu">(</span>n1 <span class="op">*</span> d2 <span class="op">-</span> n2 <span class="op">*</span> d1, d1 <span class="op">*</span> d2<span class="fu">)</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> multiply<span class="fu">({</span>n1, d1<span class="fu">}</span>, <span class="fu">{</span>n2, d2<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    new<span class="fu">(</span>n1 <span class="op">*</span> n2, d1 <span class="op">*</span> d2<span class="fu">)</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> trunc<span class="fu">({</span>n, d<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    div<span class="fu">(</span>n, d<span class="fu">)</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{:module, Rational, &lt;&lt;70, 79, 82, 49, 0, 0, 15, ...&gt;&gt;, ...}</code></pre>
+<p>Let’s check that things are behaving as we expect, using just a few
+examples:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Rational</span><span class="op">.</span>add<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">1</span>, <span class="dv">6</span><span class="fu">)</span>, <span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">1</span>, <span class="dv">8</span><span class="fu">))</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Rational</span><span class="op">.</span>multiply<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">1</span>, <span class="dv">2</span><span class="fu">)</span>, <span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">3</span><span class="fu">))</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Rational</span><span class="op">.</span>subtract<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">1</span>, <span class="dv">4</span><span class="fu">)</span>, <span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">1</span>, <span class="dv">2</span><span class="fu">))</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Rational</span><span class="op">.</span>trunc<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">3</span><span class="fu">))</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Rational</span><span class="op">.</span>inv<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">3</span>, <span class="dv">2</span><span class="fu">))</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[{7, 24}, {-1, 3}, {-1, 4}, -1, {2, 3}]</code></pre>
+<h1 id="convergents-of-the-square-root-of-2">Convergents of the Square
+Root of 2</h1>
+<p>Let’s take a look at the approximations to <span
+class="math display">\[ \sqrt{2} \]</span> we get from its continued
+fraction expansion.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">2</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{1, [2]}</code></pre>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">Conv</span> <span class="kw">do</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> terms<span class="fu">({</span>a0, as<span class="fu">})</span> <span class="kw">do</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Stream</span><span class="op">.</span>concat<span class="fu">(</span><span class="ot">[</span>a0<span class="ot">]</span>, <span class="cn">Stream</span><span class="op">.</span>cycle<span class="fu">(</span>as<span class="fu">))</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> convergent<span class="fu">(</span>rterms, acc \\ <span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span><span class="dv">0</span>, <span class="dv">1</span><span class="fu">))</span> <span class="kw">do</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> rterms <span class="kw">do</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="ot">[</span>a0<span class="ot">]</span> <span class="op">-&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cn">Rational</span><span class="op">.</span>add<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span>a0, <span class="dv">1</span><span class="fu">)</span>, acc<span class="fu">)</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">[</span>a <span class="op">|</span> rest<span class="ot">]</span> <span class="op">-&gt;</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        acc1 <span class="op">=</span> <span class="cn">Rational</span><span class="op">.</span>inv<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>add<span class="fu">(</span><span class="cn">Rational</span><span class="op">.</span>new<span class="fu">(</span>a, <span class="dv">1</span><span class="fu">)</span>, acc<span class="fu">))</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        convergent<span class="fu">(</span>rest, acc1<span class="fu">)</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> conv<span class="fu">(</span>expansion, n<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    rts <span class="op">=</span> <span class="cn">Enum</span><span class="op">.</span>take<span class="fu">(</span>terms<span class="fu">(</span>expansion<span class="fu">)</span>, n <span class="op">+</span> <span class="dv">1</span><span class="fu">)</span> <span class="op">|&gt;</span> <span class="cn">Enum</span><span class="op">.</span>reverse<span class="fu">()</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    convergent<span class="fu">(</span>rts<span class="fu">)</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> ndigits<span class="fu">(</span>n<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    length<span class="fu">(</span><span class="cn">Integer</span><span class="op">.</span>to_charlist<span class="fu">(</span>n<span class="fu">))</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{:module, Conv, &lt;&lt;70, 79, 82, 49, 0, 0, 13, ...&gt;&gt;, ...}</code></pre>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">..</span><span class="dv">8</span> <span class="op">|&gt;</span> <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> n <span class="op">-&gt;</span> <span class="cn">Conv</span><span class="op">.</span>conv<span class="fu">(</span><span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">2</span><span class="fu">)</span>, n<span class="fu">)</span> <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[{3, 2}, {7, 5}, {17, 12}, {41, 29}, {99, 70}, {239, 169}, {577, 408}, {1393, 985}]</code></pre>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">..</span><span class="dv">1000</span> <span class="op">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Task</span><span class="op">.</span>async_stream<span class="fu">(</span><span class="kw">fn</span> n <span class="op">-&gt;</span> <span class="cn">Conv</span><span class="op">.</span>conv<span class="fu">(</span><span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">2</span><span class="fu">)</span>, n<span class="fu">)</span> <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Stream</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> <span class="fu">{</span><span class="va">:ok</span>, v<span class="fu">}</span> <span class="op">-&gt;</span> v <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>filter<span class="fu">(</span><span class="kw">fn</span> <span class="fu">{</span>num, den<span class="fu">}</span> <span class="op">-&gt;</span> <span class="cn">Conv</span><span class="op">.</span>ndigits<span class="fu">(</span>num<span class="fu">)</span> <span class="op">&gt;</span> <span class="cn">Conv</span><span class="op">.</span>ndigits<span class="fu">(</span>den<span class="fu">)</span> <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>count<span class="fu">()</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>153</code></pre>
+<h1 id="continued-fraction-expansion-of-e">Continued Fraction Expansion
+of e</h1>
+<p>The continued fraction expansion of <span class="math display">\[ e
+\]</span> looks like</p>
+<p><span class="math display">\[ e \sim [2; 1, 2, 1, 1, 4, 1, 1, 6, 1,
+..., 1, 2k, 1, ... ] \]</span></p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">ExpContFrac</span> <span class="kw">do</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> istream2<span class="fu">()</span> <span class="kw">do</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Stream</span><span class="op">.</span>iterate<span class="fu">(</span><span class="dv">2</span>, <span class="kw">fn</span> n <span class="op">-&gt;</span> n <span class="op">+</span> <span class="dv">2</span> <span class="kw">end</span><span class="fu">)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> expFracStream<span class="fu">()</span> <span class="kw">do</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Stream</span><span class="op">.</span>concat<span class="fu">(</span><span class="ot">[</span><span class="dv">2</span><span class="ot">]</span>, <span class="cn">Stream</span><span class="op">.</span>flat_map<span class="fu">(</span>istream2<span class="fu">()</span>, <span class="kw">fn</span> n <span class="op">-&gt;</span> <span class="ot">[</span><span class="dv">1</span>, n, <span class="dv">1</span><span class="ot">]</span> <span class="kw">end</span><span class="fu">))</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="cn">Enum</span><span class="op">.</span>take<span class="fu">(</span><span class="cn">ExpContFrac</span><span class="op">.</span>expFracStream<span class="fu">()</span>, <span class="dv">20</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[2, 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, 1, 1, 10, 1, 1, 12, 1, 1]</code></pre>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">..</span><span class="dv">10</span> <span class="op">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> n <span class="op">-&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">Conv</span><span class="op">.</span>convergent<span class="fu">(</span><span class="cn">Enum</span><span class="op">.</span>reverse<span class="fu">(</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Enum</span><span class="op">.</span>take<span class="fu">(</span><span class="cn">ExpContFrac</span><span class="op">.</span>expFracStream<span class="fu">()</span>, n<span class="fu">)))</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[{2, 1}, {3, 1}, {8, 3}, {11, 4}, {19, 7}, {87, 32}, {106, 39}, {193, 71}, {1264, 465}, {1457, 536}]</code></pre>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span>e_num100, e_denom100<span class="fu">}</span> <span class="op">=</span> <span class="cn">Conv</span><span class="op">.</span>convergent<span class="fu">(</span><span class="cn">Enum</span><span class="op">.</span>reverse<span class="fu">(</span><span class="cn">Enum</span><span class="op">.</span>take<span class="fu">(</span><span class="cn">ExpContFrac</span><span class="op">.</span>expFracStream<span class="fu">()</span>, <span class="dv">100</span><span class="fu">)))</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{6963524437876961749120273824619538346438023188214475670667,
+ 2561737478789858711161539537921323010415623148113041714756}</code></pre>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cn">Integer</span><span class="op">.</span>to_charlist<span class="fu">(</span>e_num100<span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>reduce<span class="fu">(</span><span class="dv">0</span>, <span class="kw">fn</span> c, s <span class="op">-&gt;</span> s <span class="op">+</span> <span class="fu">(</span>c <span class="op">-</span> ?<span class="dv">0</span><span class="fu">)</span> <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>272</code></pre>
+<h1 id="pells-equation">Pell’s Equation</h1>
+<p>See https://en.wikipedia.org/wiki/Pell%27s_equation to jump to the
+solution, given by:</p>
+<p>Let <span class="math display">\[ h_{i}/k_{i} \]</span> denote the
+sequence of convergents to the regular continued fraction for <span
+class="math display">\[ \sqrt{n} \]</span>. This sequence is unique.
+Then the pair of positive integers <span class="math display">\[
+(x_{1},y_{1}) \]</span> solving Pell’s equation <span
+class="math display">\[ x^2 - n y^2 = 1 \]</span> and minimizing <span
+class="math display">\[ x \]</span> satisfies <span
+class="math display">\[ x_1 = h_i, y_1 = k_i \]</span> for some <span
+class="math display">\[ i \]</span>. This pair is called the fundamental
+solution.</p>
+<p>The sequence of integers <span class="math display">\[
+[a_{0};a_{1},a_{2},\ldots ] \]</span> in the regular continued fraction
+of <span class="math display">\[ \sqrt {n} \]</span> is always
+eventually periodic. It can be written in the form <span
+class="math display">\[ \left[\lfloor {\sqrt {n}}\rfloor ;{\overline
+{a_{1},a_{2},\ldots ,a_{p-1},2\lfloor {\sqrt {n}}\rfloor }}\right]
+\]</span>, where <span class="math display">\[ a_{1},a_{2},\ldots
+,a_{p-1},2\lfloor {\sqrt {n}}\rfloor \]</span> is the periodic part
+repeating indefinitely. Moreover, the tuple <span
+class="math display">\[ (a_{1},a_{2},\ldots ,a_{p-1}) \]</span> is
+palindromic. It reads the same from left to right as from right to
+left.</p>
+<p>The fundamental solution is then</p>
+<p><span class="math display">\[
+(x_{1},y_{1})={\begin{cases}(h_{p-1},k_{p-1}),&amp;{\text{ for
+}}p{\text{ even}}\\(h_{2p-1},k_{2p-1}),&amp;{\text{ for }}p{\text{
+odd}}\end{cases}} \]</span></p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">defmodule</span> <span class="cn">Pells</span> <span class="kw">do</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> fun_solution<span class="fu">(</span>d<span class="fu">)</span> <span class="kw">do</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    expansion <span class="op">=</span> <span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span>d<span class="fu">)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span>_a0, as<span class="fu">}</span> <span class="op">=</span> expansion</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    period <span class="op">=</span> length<span class="fu">(</span>as<span class="fu">)</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rem<span class="fu">(</span>period, <span class="dv">2</span><span class="fu">)</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">do</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Conv</span><span class="op">.</span>conv<span class="fu">(</span>expansion, period <span class="op">-</span> <span class="dv">1</span><span class="fu">)</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">Conv</span><span class="op">.</span>conv<span class="fu">(</span>expansion, <span class="dv">2</span> <span class="op">*</span> period <span class="op">-</span> <span class="dv">1</span><span class="fu">)</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span><span class="ot">]</span> <span class="op">|&gt;</span> <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="op">&amp;</span><span class="cn">Pells</span><span class="op">.</span>fun_solution<span class="op">/</span><span class="dv">1</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>[{3, 2}, {2, 1}, {9, 4}, {5, 2}, {8, 3}]</code></pre>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">..</span><span class="dv">1000</span> <span class="op">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>filter<span class="fu">(</span><span class="kw">fn</span> d <span class="op">-&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="cn">Isqrt</span><span class="op">.</span>isqrt<span class="fu">(</span>d<span class="fu">)</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">*</span> x <span class="op">&lt;</span> d</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>max_by<span class="fu">(</span><span class="kw">fn</span> d <span class="op">-&gt;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span>x, _y<span class="fu">}</span> <span class="op">=</span> <span class="cn">Pells</span><span class="op">.</span>fun_solution<span class="fu">(</span>d<span class="fu">)</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    x</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>661</code></pre>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span>x661, y661<span class="fu">}</span> <span class="op">=</span> <span class="cn">Pells</span><span class="op">.</span>fun_solution<span class="fu">(</span><span class="dv">661</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{16421658242965910275055840472270471049, 638728478116949861246791167518480580}</code></pre>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>x661 <span class="op">*</span> x661 <span class="op">-</span> <span class="dv">661</span> <span class="op">*</span> y661 <span class="op">*</span> y661</span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>1</code></pre>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span>a0_661, as_661<span class="fu">}</span> <span class="op">=</span> <span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span><span class="dv">661</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{25,
+ [1, 2, 2, 4, 4, 16, 1, 9, 2, 1, 12, 5, 1, 1, 1, 2, 1, 3, 1, 1, 3, 1, 2, 1, 1, 1, 5, 12, 1, 2, 9, 1,
+  16, 4, 4, 2, 2, 1, 50]}</code></pre>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>length<span class="fu">(</span>as_661<span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>39</code></pre>
+<h1
+id="just-for-fun-peek-at-cf-expansions-of-first-few-square-roots">Just
+for fun, peek at CF expansions of first few square roots</h1>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode elixir"><code class="sourceCode elixir"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">24</span><span class="ot">]</span> <span class="op">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>map<span class="fu">(</span><span class="kw">fn</span> n <span class="op">-&gt;</span> <span class="fu">{</span>n, <span class="cn">ContFrac</span><span class="op">.</span>expand<span class="fu">(</span>n<span class="fu">)}</span> <span class="kw">end</span><span class="fu">)</span> <span class="op">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="cn">Enum</span><span class="op">.</span>each<span class="fu">(</span><span class="kw">fn</span> expansion <span class="op">-&gt;</span> <span class="cn">IO</span><span class="op">.</span>inspect<span class="fu">(</span>expansion, <span class="va">charlists:</span> <span class="va">:as_lists</span><span class="fu">)</span> <span class="kw">end</span><span class="fu">)</span></span></code></pre></div>
+<!-- livebook:{"output":true} -->
+<pre><code>{2, {1, [2]}}
+{3, {1, [1, 2]}}
+{5, {2, [4]}}
+{6, {2, [2, 4]}}
+{7, {2, [1, 1, 1, 4]}}
+{8, {2, [1, 4]}}
+{10, {3, [6]}}
+{11, {3, [3, 6]}}
+{12, {3, [2, 6]}}
+{13, {3, [1, 1, 1, 1, 6]}}
+{14, {3, [1, 2, 1, 6]}}
+{15, {3, [1, 6]}}
+{17, {4, [8]}}
+{18, {4, [4, 8]}}
+{19, {4, [2, 1, 3, 1, 2, 8]}}
+{20, {4, [2, 8]}}
+{21, {4, [1, 1, 2, 1, 1, 8]}}
+{22, {4, [1, 2, 4, 2, 1, 8]}}
+{23, {4, [1, 3, 1, 8]}}
+{24, {4, [1, 8]}}</code></pre>
+<!-- livebook:{"output":true} -->
+<pre><code>:ok</code></pre>
+<script data-goatcounter="https://kfrost.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
