@@ -1,7 +1,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <title>kfrost</title>
   <id>https://keithfrost.github.io/</id>
-  <updated>2025-12-29T11:44:10-05:00</updated>
+  <updated>2025-12-29T11:56:59-05:00</updated>
   <author>
     <name>Keith Frost</name>
     <email>keith.l.frost@gmail.com</email>
@@ -14,13 +14,13 @@
   <webfeeds:icon>/favicon.png</webfeeds:icon>
   <webfeeds:cover image="/favicon.png"></webfeeds:cover>
   <entry>
-    <title type="html"></title>
+    <title type="html">Project Euler Problems 57, 64, 65, and 66</title>
     <id>https://keithfrost.github.io/2025-12-30-euler-contfrac.html</id>
-    <updated></updated>
+    <updated>2025-12-29T11:51:47-05:00</updated>
     <content src="https://keithfrost.github.io/2025-12-30-euler-contfrac.html" type="text/html"></content>
-    <link href="https://keithfrost.github.io/2025-12-30-euler-contfrac.html" rel="alternate" type="text/html" title=""></link>
+    <link href="https://keithfrost.github.io/2025-12-30-euler-contfrac.html" rel="alternate" type="text/html" title="Project Euler Problems 57, 64, 65, and 66"></link>
     <summary type="html">Solving Project Euler 57, 64-65, and 66 using Elixir.</summary>
-    <published></published>
+    <published>2025-12-29T11:51:47-05:00</published>
   </entry>
   <entry>
     <title type="html">Frac5 JS: Animated Frac5 generation using browser javascript</title>

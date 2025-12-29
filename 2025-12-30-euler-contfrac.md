@@ -5,7 +5,7 @@ summary: >-
 
 <!-- livebook:{"autosave_interval_s":30} -->
 
-## Project Euler Problems 57, 64, 65, and 66
+# Project Euler Problems 57, 64, 65, and 66
 
 This is a set of problems I find particularly interesting and
 satisfying to solve, because they all involve learning about continued
