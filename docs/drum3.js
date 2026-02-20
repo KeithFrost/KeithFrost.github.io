@@ -1,0 +1,65 @@
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext('2d');
+
+const pixelRatio = window.devicePixelRatio || 1;
+const width = window.innerWidth * pixelRatio;
+const height = window.innerHeight * pixelRatio;
+canvas.width = width;
+canvas.height = height;
+ctx.scale(pixelRatio, pixelRatio);
+
+const imageData = ctx.createImageData(width, height);
+const imageBuff = imageData.data;
+for (let i = 3; i < imageBuff.length; i += 4) {
+    imageBuff[i] = 255;  // Make opaque
+}
+
+const pts = new Float32Array(3 * width * height);
+const vels = new Float32Array(3 * width * height);
+const yStride = 3 * width;
+const xStride = 3;
+
+for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+	for (let c = 0; c < 3; c++) {
+	    const i = 3 * (width * y + x) + c;
+	    const j = i - yStride;
+	    pts[i] = 0.25 *
+		(pts[j] + pts[j - xStride] + pts[j + xStride]
+		 + pts[i - xStride]) +
+		0.1 * (3 - c) * (Math.random() - 0.5);
+	}
+    }
+}
+
+function cval(x) {
+    return Math.floor(128 + 127.9999 * Math.sin(x));
+}
+
+function animate(time) {
+    for (let y = 1; y < height - 1; y++) {
+	for (let x = 1; x < width - 1; x++) {
+	    for (let c = 0; c < 3; c++) {
+		const i = 3 * (width * y + x) + c;
+		const navg = 0.25 * (
+		    pts[i - yStride] + pts[i + yStride] +
+			pts[i - xStride] + pts[i + xStride]);
+		vels[i] -= 0.25 * (pts[i] - 0.999 * navg);
+	    }
+	}
+    }
+    for (let i = 0; i < pts.length; i++) {
+	pts[i] += vels[i];
+    }
+
+    let j = 0;
+    for (let i = 0; i < imageBuff.length; i += 4, j += 3) {
+	imageBuff[i] = cval(pts[j]);
+	imageBuff[i + 1] = cval(pts[j + 1]);
+	imageBuff[i + 2] = cval(pts[j + 2]);
+    }
+    ctx.putImageData(imageData, 0, 0);
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
