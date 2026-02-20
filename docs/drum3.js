@@ -1,12 +1,10 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
-const pixelRatio = window.devicePixelRatio || 1;
-const width = window.innerWidth * pixelRatio;
-const height = window.innerHeight * pixelRatio;
+const width = window.innerWidth;
+const height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
-ctx.scale(pixelRatio, pixelRatio);
 
 const imageData = ctx.createImageData(width, height);
 const imageBuff = imageData.data;
