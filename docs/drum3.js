@@ -42,7 +42,10 @@ function animate(time) {
 		const navg = 0.25 * (
 		    pts[i - yStride] + pts[i + yStride] +
 			pts[i - xStride] + pts[i + xStride]);
-		vels[i] -= 0.25 * (pts[i] - 0.999 * navg);
+		const i0 = i - c;
+		const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
+		vels[i] += 0.1 * (c + 1) * (navg - pts[i])
+			- 0.0001 * Math.sin(s);
 	    }
 	}
     }
