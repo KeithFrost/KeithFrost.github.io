@@ -59,7 +59,7 @@ void main() {
   // Wave speeds per channel: 0.25*(c+1) => 0.25, 0.50, 0.75
   vec3 speed = vec3(0.25, 0.50, 0.75);
 
-  vec3 accel = speed * (navg - cur) - 0.0001 * sin(s);
+  vec3 accel = speed * (navg - cur) - 0.0003 * sin(s);
 
   vec3 newVel = vel + uDt * accel;
   vec3 newPts = cur + newVel * uDt;

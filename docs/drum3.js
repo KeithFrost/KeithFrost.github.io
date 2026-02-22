@@ -67,7 +67,7 @@ function animate(time) {
 	const i0 = i - c;
 	const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
 	vels[i] += dt * (0.25 * (c + 1) * (navg - pts[i])
-			 - 0.0001 * Math.sin(s));
+			 - 0.0003 * Math.sin(s));
       }
     }
   }
