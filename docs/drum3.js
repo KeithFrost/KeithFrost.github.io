@@ -34,7 +34,14 @@ function cval(x) {
     return Math.floor(128 + 127.9999 * Math.sin(x));
 }
 
+let pTime = 0;
 function animate(time) {
+    let dt = 0.01 * (time - pTime);
+    if (dt > 1.0) {
+	dt = 1.0;
+    }
+    pTime = time;
+
     for (let y = 1; y < height - 1; y++) {
 	for (let x = 1; x < width - 1; x++) {
 	    for (let c = 0; c < 3; c++) {
@@ -44,13 +51,13 @@ function animate(time) {
 			pts[i - xStride] + pts[i + xStride]);
 		const i0 = i - c;
 		const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
-		vels[i] += 0.1 * (c + 1) * (navg - pts[i])
-			- 0.0001 * Math.sin(s);
+		vels[i] += dt * (0.25 * (c + 1) * (navg - pts[i])
+				 - 0.0001 * Math.sin(s));
 	    }
 	}
     }
     for (let i = 0; i < pts.length; i++) {
-	pts[i] += vels[i];
+	pts[i] += vels[i] * dt;
     }
 
     let j = 0;
