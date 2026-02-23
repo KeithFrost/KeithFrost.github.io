@@ -70,8 +70,8 @@ function animate(time) {
 		  pts[i - xStride + yStride] + pts[i + xStride + yStride]);
 	const i0 = i - c;
 	const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
-	vels[i] += dt * (0.25 * (c + 1) * (navg - pts[i])
-			 - 0.0005 * Math.sin(s));
+	vels[i] += dt * (0.4 + 0.1 * c) * (navg - pts[i])
+			 - 0.001 * Math.sin(s));
       }
     }
   }
