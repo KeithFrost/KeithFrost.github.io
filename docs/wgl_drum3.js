@@ -60,12 +60,17 @@ void main() {
   vec3 navg = c2 * (up + down + left + right) + c1 * (upl + upr + downl + downr);
 
   // Nonlinear coupling: sin(sum of all channels at this pixel)
-  float s = cur.r + cur.g + cur.b;
+  // float s = cur.r + cur.g + cur.b;
+
+  float s2 = 0.1 + cur.r * cur.r + cur.g * cur.g + cur.b * cur.b;
+  float s3 = s2 * sqrt(s2);
 
   // Wave speeds per channel: 0.4 + 0.1*c => 0.4, 0.5, 0.6
   vec3 speed = vec3(0.40, 0.50, 0.60);
 
-  vec3 accel = speed * (navg - cur) - 0.001 * sin(s);
+  // vec3 accel = speed * (navg - cur) - 0.001 * sin(s);
+
+  vec3 accel = speed * (navg - cur) - 1.0E-4 * cur / s3;
 
   vec3 newVel = vel + uDt * accel;
   vec3 newPts = cur + newVel * uDt;

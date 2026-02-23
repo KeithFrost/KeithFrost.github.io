@@ -69,9 +69,14 @@ function animate(time) {
 		pts[i - xStride - yStride] + pts[i + xStride - yStride] +
 		  pts[i - xStride + yStride] + pts[i + xStride + yStride]);
 	const i0 = i - c;
-	const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
-	vels[i] += dt * (0.4 + 0.1 * c) * (navg - pts[i])
-			 - 0.001 * Math.sin(s));
+	// const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
+	const s2 = 0.1 + pts[i0] * pts[i0] +
+	      pts[i0 + 1] * pts[i0 + 1] + pts[i0 + 2] * pts[i0 + 2];
+	const s3 = s2 * Math.sqrt(s2);
+
+	vels[i] += dt * (0.4 + 0.1 * c) * (navg - pts[i]) -
+	  1.0E-4 * pts[i] / s3;
+	// - 0.001 * Math.sin(s));
       }
     }
   }
