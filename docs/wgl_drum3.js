@@ -47,11 +47,17 @@ void main() {
 
   // Neighbour average for each channel (same neighbour stencil for all channels)
   vec3 up    = texture(uPts, vUV + vec2(0.0,  uTexelSize.y)).rgb;
+  vec3 upl   = texture(uPts, vUV + vec2(-uTexelSize.x, uTexelSize.y)).rgb;
+  vec3 upr   = texture(uPts, vUV + vec2(uTexelSize.x, uTexelSize.y)).rgb;
   vec3 down  = texture(uPts, vUV + vec2(0.0, -uTexelSize.y)).rgb;
+  vec3 downl = texture(uPts, vUV + vec2(-uTexelSize.x, -uTexelSize.y)).rgb;
+  vec3 downr = texture(uPts, vUV + vec2(uTexelSize.x, -uTexelSize.y)).rgb;
   vec3 left  = texture(uPts, vUV + vec2(-uTexelSize.x, 0.0)).rgb;
   vec3 right = texture(uPts, vUV + vec2( uTexelSize.x, 0.0)).rgb;
 
-  vec3 navg = 0.25 * (up + down + left + right);
+  float c1 = 1.0 / 12.0;
+  float c2 = 1.0 / 6.0;
+  vec3 navg = c2 * (up + down + left + right) + c1 * (upl + upr + downl + downr);
 
   // Nonlinear coupling: sin(sum of all channels at this pixel)
   float s = cur.r + cur.g + cur.b;
@@ -59,7 +65,7 @@ void main() {
   // Wave speeds per channel: 0.25*(c+1) => 0.25, 0.50, 0.75
   vec3 speed = vec3(0.25, 0.50, 0.75);
 
-  vec3 accel = speed * (navg - cur) - 0.0003 * sin(s);
+  vec3 accel = speed * (navg - cur) - 0.0005 * sin(s);
 
   vec3 newVel = vel + uDt * accel;
   vec3 newPts = cur + newVel * uDt;
@@ -239,7 +245,7 @@ function animate(time) {
     elapsed = 0;
   }
 
-  let dt = 0.03 * deltaTime;
+  let dt = 0.02 * deltaTime;
   if (dt > 1.0 || dt < 0.0) dt = 1.0;
   pTime = time;
 

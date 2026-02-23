@@ -53,21 +53,25 @@ function animate(time) {
     elapsed = 0;
   }
 
-  let dt = 0.03 * deltaTime;
+  let dt = 0.02 * deltaTime;
   if (dt > 1.0 || dt < 0.0) dt = 1.0;
   pTime = time;
-
+  const c1 = 1.0 / 12.0;
+  const c2 = 1.0 / 6.0;
   for (let y = 1; y < height - 1; y++) {
     for (let x = 1; x < width - 1; x++) {
       for (let c = 0; c < 3; c++) {
 	const i = 3 * (width * y + x) + c;
-	const navg = 0.25 * (
+	const navg = c2 * (
 	  pts[i - yStride] + pts[i + yStride] +
-	    pts[i - xStride] + pts[i + xStride]);
+	    pts[i - xStride] + pts[i + xStride]) +
+	      c1 * (
+		pts[i - xStride - yStride] + pts[i + xStride - yStride] +
+		  pts[i - xStride + yStride] + pts[i + xStride + yStride]);
 	const i0 = i - c;
 	const s = pts[i0] + pts[i0 + 1] + pts[i0 + 2];
 	vels[i] += dt * (0.25 * (c + 1) * (navg - pts[i])
-			 - 0.0003 * Math.sin(s));
+			 - 0.0005 * Math.sin(s));
       }
     }
   }
