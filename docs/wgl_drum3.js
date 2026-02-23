@@ -229,7 +229,7 @@ function animate(time) {
   if (deltaTime < 200) {
     elapsed += 0.001 * deltaTime;
     frameCount++;
-    if (frameCount % 100 == 0) {
+    if (elapsed > 20.0) {
       console.log("fps = " + (frameCount / elapsed));
       frameCount = 0;
       elapsed = 0;
